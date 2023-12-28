@@ -4390,7 +4390,9 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Mouse.Cnds.OnMovement,
 		C3.Plugins.Camera3D.Acts.RotateCamera,
 		C3.Plugins.Mouse.Exps.MovementX,
-		C3.Plugins.Mouse.Exps.MovementY
+		C3.Plugins.Mouse.Exps.MovementY,
+		C3.Plugins.Mouse.Cnds.OnClick,
+		C3.Plugins.Mouse.Acts.RequestPointerLock
 	];
 };
 self.C3_JsPropNameTable = [
@@ -4594,8 +4596,7 @@ self.C3_ExpressionFuncs = [
 			return () => (f0() / v1.GetValue());
 		},
 		() => 20,
-		() => 160,
-		() => 0.01
+		() => 160
 ];
 
 
