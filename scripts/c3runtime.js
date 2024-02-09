@@ -4425,6 +4425,9 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Sprite.Acts.AddChild,
 		C3.Plugins.Shape3D.Cnds.OnCollision,
 		C3.Plugins.Shape3D.Acts.Destroy,
+		C3.Plugins.System.Cnds.Every,
+		C3.Plugins.System.Acts.CreateObject,
+		C3.Plugins.System.Exps.random,
 		C3.Plugins.System.Cnds.OnLayoutStart,
 		C3.Plugins.Camera3D.Acts.LookParallelToLayout,
 		C3.Plugins.Sprite.Exps.Angle,
@@ -4439,8 +4442,9 @@ self.C3_GetObjectRefTable = function () {
 		C3.Plugins.Camera3D.Acts.RotateCamera,
 		C3.Plugins.Sprite.Acts.SetAngle,
 		C3.Plugins.Camera3D.Exps.CameraXRotation,
-		C3.Plugins.Sprite.Cnds.AngleWithin,
-		C3.Behaviors.EightDir.Acts.SimulateControl
+		C3.Plugins.Sprite.Acts.MoveAtAngle,
+		C3.Plugins.System.Exps.dt,
+		C3.ScriptsInEvents.MainGameEvents_Event14_Act8
 	];
 };
 self.C3_JsPropNameTable = [
@@ -4468,12 +4472,14 @@ self.C3_JsPropNameTable = [
 	{JoystickContainerLeft: 0},
 	{DragDrop: 0},
 	{JoystickLeft: 0},
+	{var: 0},
 	{LeachLeft: 0},
 	{LeachRight: 0},
 	{JoystickContainerRight: 0},
 	{JoystickRight: 0},
 	{Touch: 0},
 	{Mouse: 0},
+	{"3DShape5": 0},
 	{enSpawn: 0},
 	{MouseSense: 0},
 	{PlayerSpeed: 0}
@@ -4502,7 +4508,8 @@ self.InstanceType = {
 	JoystickContainerRight: class extends self.ISpriteInstance {},
 	JoystickRight: class extends self.ISpriteInstance {},
 	Touch: class extends self.IInstance {},
-	Mouse: class extends self.IInstance {}
+	Mouse: class extends self.IInstance {},
+	_3DShape5: class extends self.I3DShapeInstance {}
 }
 }
 
@@ -4616,6 +4623,16 @@ self.C3_ExpressionFuncs = [
 		() => 100,
 		() => 0.1,
 		p => {
+			const v0 = p._GetNode(0).GetVar();
+			return () => v0.GetValue();
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			const f1 = p._GetNode(1).GetBoundMethod();
+			return () => (n0.ExpObject() + f1(0, 720));
+		},
+		() => "",
+		p => {
 			const n0 = p._GetNode(0);
 			const n1 = p._GetNode(1);
 			const n2 = p._GetNode(2);
@@ -4642,10 +4659,20 @@ self.C3_ExpressionFuncs = [
 			const f0 = p._GetNode(0).GetBoundMethod();
 			return () => f0();
 		},
-		() => 60,
-		() => 90,
-		() => 180,
-		() => 270
+		p => {
+			const f0 = p._GetNode(0).GetBoundMethod();
+			const n1 = p._GetNode(1);
+			return () => (f0() + (n1.ExpObject() + 90));
+		},
+		p => {
+			const n0 = p._GetNode(0);
+			const n1 = p._GetNode(1);
+			const n2 = p._GetNode(2);
+			const n3 = p._GetNode(3);
+			const v4 = p._GetNode(4).GetVar();
+			const f5 = p._GetNode(5).GetBoundMethod();
+			return () => (((C3.distanceTo(n0.ExpObject(), n1.ExpObject(), n2.ExpObject(), n3.ExpObject()) / 100) * v4.GetValue()) * f5());
+		}
 ];
 
 
